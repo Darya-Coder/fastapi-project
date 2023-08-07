@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Path
 from typing import List
+from pydantic import BaseModel
+
 
 app = FastAPI()
 
@@ -153,6 +155,19 @@ products = [
 ]
 
 
-@app.get("/", response_model=List[dict])
+class Student(BaseModel):
+    id: int
+    name: str
+    details: str
+    price: int
+
+
+@app.get("/")
+async def root():
+    return {
+        'example': 'this is an example', 'data': 0}
+
+
+@app.get("/products/", response_model=List[dict])
 def get_products():
     return products
